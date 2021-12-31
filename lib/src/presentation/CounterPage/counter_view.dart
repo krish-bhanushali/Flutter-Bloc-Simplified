@@ -9,39 +9,47 @@ class CounterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
-        body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(),
-            Text('You have pushed the button this many times:1'),
-            BlocBuilder<CounterCubit, CounterState>(
-              builder: (context, state) {
-                return Text('${state.counterValue}');
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    // BlocProvider.of<CounterCubit>(context).increment();
-                    context.read<CounterCubit>().increment();
-                  },
-                  tooltip: 'Increment',
-                  child: Icon(Icons.add),
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    // BlocProvider.of<CounterCubit>(context).decrement();
-                    context.read<CounterCubit>().decrement();
-                  },
-                  tooltip: 'Decrement',
-                  child: Icon(Icons.remove),
-                ),
-              ],
-            )
-          ],
-        )));
+        body: BlocListener<CounterCubit, CounterState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if(state.wasIncremented!){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("incremented")));
+            }
+          },
+          child: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(),
+              Text('You have pushed the button this many times:1'),
+              BlocBuilder<CounterCubit, CounterState>(
+                builder: (context, state) {
+                  return Text('${state.counterValue}');
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FloatingActionButton(
+                    onPressed: () {
+                      // BlocProvider.of<CounterCubit>(context).increment();
+                      context.read<CounterCubit>().increment();
+                    },
+                    tooltip: 'Increment',
+                    child: Icon(Icons.add),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      // BlocProvider.of<CounterCubit>(context).decrement();
+                      context.read<CounterCubit>().decrement();
+                    },
+                    tooltip: 'Decrement',
+                    child: Icon(Icons.remove),
+                  ),
+                ],
+              )
+            ],
+          )),
+        ));
   }
 }
